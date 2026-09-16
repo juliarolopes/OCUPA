@@ -11,10 +11,10 @@ const buttonVariants = cva(
       variant: {
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         editorial:
-          "rounded-none bg-primary text-primary-foreground shadow-none hover:bg-terracotta focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "rounded-full bg-primary text-primary-foreground shadow-none hover:bg-terracotta focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         nav: "rounded-none bg-transparent text-foreground shadow-none hover:text-primary",
         inverse:
-          "rounded-none bg-background text-foreground shadow-none hover:bg-light-green focus-visible:ring-2 focus-visible:ring-primary-foreground",
+          "rounded-full bg-background text-primary shadow-none hover:bg-light-green focus-visible:ring-2 focus-visible:ring-primary-foreground",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:
           "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",

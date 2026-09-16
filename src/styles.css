@@ -151,6 +151,7 @@
     font-family: var(--font-sans);
     letter-spacing: 0;
     margin: 0;
+    min-width: 320px;
   }
 
   html { scroll-behavior: smooth; }
@@ -159,4 +160,74 @@
     background: var(--color-light-green);
     color: var(--color-primary);
   }
+}
+
+@layer components {
+  .hero-scene {
+    background-image: linear-gradient(90deg, color-mix(in oklab, var(--background) 96%, var(--light-green)), var(--background));
+  }
+
+  .shape {
+    pointer-events: none;
+    position: absolute;
+  }
+
+  .shape-left {
+    left: -7rem;
+    top: 1rem;
+    width: 12rem;
+    height: 17rem;
+    border-radius: 48% 52% 62% 38%;
+    background: color-mix(in oklab, var(--primary) 72%, transparent);
+    border: 2.5rem solid color-mix(in oklab, var(--light-green) 65%, transparent);
+    transform: rotate(-18deg);
+  }
+
+  .shape-right {
+    right: -5rem;
+    bottom: -5rem;
+    width: 13rem;
+    height: 17rem;
+    border-radius: 58% 42% 20% 60%;
+    background: color-mix(in oklab, var(--terracotta) 85%, transparent);
+    transform: rotate(15deg);
+  }
+
+  .process-band::before,
+  .process-band::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5rem;
+    background: var(--background);
+  }
+
+  .process-band::before {
+    top: -1px;
+    clip-path: ellipse(58% 75% at 50% 0%);
+  }
+
+  .process-band::after {
+    bottom: -1px;
+    clip-path: ellipse(58% 75% at 50% 100%);
+  }
+
+  .cta-leaf {
+    position: absolute;
+    right: -2rem;
+    bottom: -4rem;
+    width: 9rem;
+    height: 12rem;
+    border: 1px solid var(--terracotta);
+    border-radius: 50% 50% 0 50%;
+    transform: rotate(-12deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .shape-left { opacity: 0.28; }
+  .shape-right { opacity: 0.35; }
+  .process-band::before,
+  .process-band::after { display: none; }
 }

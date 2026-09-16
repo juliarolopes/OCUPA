@@ -1,4 +1,4 @@
-import { CalendarDays, MapPin, Search } from "lucide-react";
+import { CalendarDays, ChevronDown, MapPin, Search } from "lucide-react";
 import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -12,20 +12,20 @@ export function SearchBar() {
 
   return (
     <div>
-      <form onSubmit={submit} className="grid overflow-hidden border border-foreground/20 bg-card shadow-[0_18px_55px_-35px_var(--foreground)] md:grid-cols-[1.35fr_1fr_.8fr_auto]">
-        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-4 md:border-b-0 md:border-r">
-          <Search className="size-5 shrink-0 text-primary" />
-          <span className="min-w-0 flex-1"><span className="block text-xs font-semibold">O que você precisa fazer?</span><input className="mt-1 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="Fotografar, guardar, criar..." /></span>
+      <form onSubmit={submit} className="grid overflow-hidden rounded-[2rem] border border-border bg-card p-1.5 shadow-[0_16px_40px_-24px_var(--foreground)] md:grid-cols-[1.45fr_.75fr_.75fr_auto]">
+        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-3 md:border-b-0 md:border-r">
+          <Search className="size-4 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1"><span className="block text-[0.62rem] font-semibold">O que você precisa fazer?</span><input className="mt-1 w-full bg-transparent text-[0.7rem] outline-none placeholder:text-muted-foreground" placeholder="Ex: Guardar móveis por duas semanas..." /></span>
         </label>
-        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-4 md:border-b-0 md:border-r">
-          <MapPin className="size-5 shrink-0 text-primary" />
-          <span className="min-w-0 flex-1"><span className="block text-xs font-semibold">Local</span><input className="mt-1 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground" placeholder="Bairro ou cidade" /></span>
+        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-3 md:border-b-0 md:border-r">
+          <MapPin className="size-4 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1"><span className="block text-[0.62rem] font-semibold">Localização</span><input className="mt-1 w-full bg-transparent text-[0.7rem] outline-none placeholder:text-muted-foreground" placeholder="São Paulo" /></span><ChevronDown className="size-3 text-muted-foreground" />
         </label>
-        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-4 md:border-b-0 md:border-r">
-          <CalendarDays className="size-5 shrink-0 text-primary" />
-          <span className="min-w-0 flex-1"><span className="block text-xs font-semibold">Data</span><input type="date" className="mt-1 w-full bg-transparent text-sm outline-none" /></span>
+        <label className="flex min-w-0 items-center gap-3 border-b border-border px-5 py-3 md:border-b-0 md:border-r">
+          <CalendarDays className="size-4 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1"><span className="block text-[0.62rem] font-semibold">Datas</span><input type="date" className="mt-1 w-full bg-transparent text-[0.7rem] outline-none" /></span>
         </label>
-        <Button type="submit" variant="editorial" className="h-full min-h-16 px-7">Encontrar espaço</Button>
+        <Button type="submit" variant="editorial" className="h-full min-h-12 px-6 text-[0.68rem]">Encontrar espaço <span aria-hidden="true">→</span></Button>
       </form>
       <p aria-live="polite" className="mt-2 min-h-5 text-xs text-primary">{message}</p>
     </div>
