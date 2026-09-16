@@ -5,3 +5,4 @@
 - [x] Implementar categorias e vitrine com dados fictícios
 - [x] Implementar explicação, chamada para anunciantes e rodapé
 - [x] Validar carregamento, visual móvel/desktop e interações locais
+- [x] Refinar tipografia, navegação, proporções da busca e calendário
