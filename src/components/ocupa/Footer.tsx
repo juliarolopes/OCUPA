@@ -1,0 +1,3 @@
+export function Footer() {
+  return <footer className="bg-foreground text-background"><div className="mx-auto grid max-w-[1440px] gap-12 px-5 py-14 md:grid-cols-[1fr_auto] md:px-10"><div><p className="font-serif text-4xl">OCUPA</p><p className="mt-3 text-sm opacity-70">Todo espaço pode ter uma função.</p></div><nav className="grid grid-cols-2 gap-x-10 gap-y-4 text-sm md:grid-cols-3" aria-label="Rodapé"><a href="#explorar">Explorar</a><a href="#como-funciona">Como funciona</a><a href="#anunciar">Disponibilizar espaço</a><a href="#top">Termos</a><a href="#top">Privacidade</a></nav></div><div className="border-t border-background/20 px-5 py-5 text-center text-xs opacity-60">© 2026 OCUPA</div></footer>;
+}
