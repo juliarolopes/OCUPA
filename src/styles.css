@@ -156,6 +156,8 @@
 
   html { scroll-behavior: smooth; }
 
+  section[id] { scroll-margin-top: 4.75rem; }
+
   ::selection {
     background: var(--color-light-green);
     color: var(--color-primary);
@@ -163,6 +165,24 @@
 }
 
 @layer components {
+  .nav-item::after {
+    content: "";
+    position: absolute;
+    right: 1rem;
+    bottom: 0;
+    left: 1rem;
+    height: 2px;
+    background: var(--primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 180ms ease;
+  }
+
+  .nav-item:hover::after,
+  .nav-item[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
   .hero-scene {
     background-image: linear-gradient(90deg, color-mix(in oklab, var(--background) 96%, var(--light-green)), var(--background));
   }
@@ -230,4 +250,9 @@
   .shape-right { opacity: 0.35; }
   .process-band::before,
   .process-band::after { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .nav-item::after { transition: none; }
 }
