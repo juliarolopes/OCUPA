@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 
 type FormFieldProps = {
   children: ReactNode;
-  error?: string;
+  error?: string | undefined;
   htmlFor: string;
   label: string;
   labelAction?: ReactNode;
