@@ -40,7 +40,7 @@ export function AuthModal() {
           <div className="mt-6">
             <p className="mb-3 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-primary">Sua conta</p>
             <DialogPrimitive.Title className="font-serif text-[2rem] leading-none text-primary sm:text-[2.25rem]">
-              {mode === "login" ? copy.headline : "Criar conta."}
+              {mode === "login" ? copy.headline : "Criar sua conta"}
             </DialogPrimitive.Title>
             <DialogPrimitive.Description className="mt-3 text-sm text-muted-foreground">
               {mode === "login" ? copy.support : "Crie sua conta OCUPA para continuar."}

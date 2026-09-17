@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { FormField } from "@/components/auth/FormField";
 import { PasswordInput } from "@/components/auth/PasswordInput";
 import { SocialLoginButton } from "@/components/auth/SocialLoginButton";
+import { useAuth } from "@/components/auth/auth-context";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -21,6 +22,7 @@ type RegistrationFormProps = {
 };
 
 export function RegistrationForm({ onSuccess, onSwitchToLogin, idPrefix = "signup" }: RegistrationFormProps) {
+  const { login } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,9 +32,10 @@ export function RegistrationForm({ onSuccess, onSwitchToLogin, idPrefix = "signu
 
   const id = (field: string) => `${idPrefix}-${field}`;
 
-  const completeMockSignup = async () => {
+  const completeMockSignup = async (mockUser = { name, email }) => {
     setLoading(true);
     await new Promise((resolve) => window.setTimeout(resolve, 850));
+    login(mockUser);
     await onSuccess();
     setLoading(false);
   };
@@ -129,7 +132,7 @@ export function RegistrationForm({ onSuccess, onSwitchToLogin, idPrefix = "signu
         <span className="h-px flex-1 bg-border" />
       </div>
 
-      <SocialLoginButton disabled={loading} onClick={completeMockSignup}>Continuar com Google</SocialLoginButton>
+      <SocialLoginButton disabled={loading} onClick={() => completeMockSignup({ name: "Usuário Google", email: "usuario@google.mock" })}>Continuar com Google</SocialLoginButton>
 
       <p className="mt-6 text-center text-sm text-muted-foreground">
         Já possui uma conta?{" "}

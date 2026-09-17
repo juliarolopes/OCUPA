@@ -14,7 +14,7 @@ export const authCopy: Record<AuthIntent, AuthCopy> = {
   },
   host: {
     headline: "Tem um espaço parado?",
-    support: "Entre para começar a disponibilizar seu espaço.",
+    support: "Entre na sua conta para começar a disponibilizar seu espaço.",
   },
   booking: {
     headline: "Quase lá.",

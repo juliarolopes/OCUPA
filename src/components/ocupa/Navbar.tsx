@@ -1,16 +1,36 @@
-import { Link } from "@tanstack/react-router";
 import { Heart, LogIn, Menu, X } from "lucide-react";
 import { useState } from "react";
 
+import { useAuth } from "@/components/auth/auth-context";
+import { useAuthModal } from "@/components/auth/auth-modal";
 import { Button } from "@/components/ui/button";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState("#top");
+  const { user } = useAuth();
+  const { openAuth } = useAuthModal();
 
   const navigateTo = (target: string) => {
     setActiveItem(target);
     setOpen(false);
+  };
+
+  const openLogin = () => {
+    setOpen(false);
+    openAuth("default");
+  };
+
+  const offerSpace = () => {
+    setOpen(false);
+    if (user) {
+      // TODO: navegar para a futura rota de cadastro de espaço quando ela existir.
+      return;
+    }
+    openAuth("host", {
+      // TODO: navegar para a futura rota de cadastro de espaço após autenticar.
+      onSuccess: () => undefined,
+    });
   };
 
   const navItems = [
@@ -38,8 +58,12 @@ export function Navbar() {
         </nav>
         <div className="hidden items-center gap-1 text-sm lg:flex">
           <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]"><Heart strokeWidth={1.7} /> Favoritos</Button>
-          <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" asChild><Link to="/entrar"><LogIn strokeWidth={1.7} /> Entrar</Link></Button>
-          <Button variant="editorial" className="ml-2 h-10 px-5 text-xs transition-[background-color,transform] active:scale-[0.97]" asChild><a href="#anunciar" onClick={() => navigateTo("#anunciar")}>Disponibilizar espaço</a></Button>
+          {user ? (
+            <span className="px-3 text-xs font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
+          ) : (
+            <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" onClick={openLogin}><LogIn strokeWidth={1.7} /> Entrar</Button>
+          )}
+          <Button variant="editorial" className="ml-2 h-10 px-5 text-xs transition-[background-color,transform] active:scale-[0.97]" onClick={offerSpace}>Disponibilizar espaço</Button>
         </div>
         <Button variant="ghost" size="icon" className="justify-self-end lg:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Fechar menu" : "Abrir menu"} aria-expanded={open}>
           {open ? <X /> : <Menu />}
@@ -49,7 +73,13 @@ export function Navbar() {
         <nav className="animate-fade-in border-t border-border bg-background px-5 py-3 shadow-sm lg:hidden" aria-label="Navegação móvel">
           <div className="mx-auto flex max-w-[1120px] flex-col text-sm">
             {navItems.map((item) => <a key={item.href} href={item.href} onClick={() => navigateTo(item.href)} className="border-b border-border/70 py-3.5 font-medium transition-colors active:text-primary">{item.label}</a>)}
-             <a href="#explorar" onClick={() => navigateTo("#explorar")} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</a><Link to="/entrar" onClick={() => setOpen(false)} className="flex items-center gap-2 py-3.5"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</Link>
+            <a href="#explorar" onClick={() => navigateTo("#explorar")} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</a>
+            {user ? (
+              <span className="py-3.5 font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
+            ) : (
+              <button type="button" onClick={openLogin} className="flex items-center gap-2 py-3.5 text-left"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</button>
+            )}
+            <Button type="button" variant="editorial" className="my-2 w-full" onClick={offerSpace}>Disponibilizar espaço</Button>
           </div>
         </nav>
       )}

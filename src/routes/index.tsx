@@ -10,6 +10,8 @@ import { SectionHeader } from "@/components/ocupa/SectionHeader";
 import { SpaceGrid } from "@/components/ocupa/SpaceGrid";
 import { categories } from "@/data/ocupa";
 import oficinaVerde from "@/assets/oficina-verde.jpg";
+import { useAuth } from "@/components/auth/auth-context";
+import { useAuthModal } from "@/components/auth/auth-modal";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,6 +28,20 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { user } = useAuth();
+  const { openAuth } = useAuthModal();
+
+  const offerSpace = () => {
+    if (user) {
+      // TODO: navegar para a futura rota de cadastro de espaço quando ela existir.
+      return;
+    }
+    openAuth("host", {
+      // TODO: navegar para a futura rota de cadastro de espaço após autenticar.
+      onSuccess: () => undefined,
+    });
+  };
+
   return (
     <div id="top" className="min-h-screen overflow-hidden bg-background">
       <Navbar />
@@ -70,7 +86,7 @@ function Index() {
         <section id="anunciar" className="mx-auto max-w-[1120px] px-5 py-10 md:px-8 md:py-12">
           <div className="grid overflow-hidden rounded-lg bg-light-green/55 md:grid-cols-[17rem_1fr]">
             <img src={oficinaVerde} alt="Espaço versátil disponível para novos usos" className="h-full min-h-52 w-full object-cover" />
-            <div className="relative flex items-center px-7 py-10 md:px-12"><div><p className="mb-2 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">Para anfitriões</p><h2 className="font-serif text-3xl leading-tight text-primary">Tem um espaço parado?</h2><p className="mt-3 max-w-md text-[0.7rem] leading-5 text-muted-foreground">Transforme um espaço que você não está usando em uma oportunidade para alguém.</p><Button variant="editorial" size="sm" className="mt-5 px-5 text-[0.65rem]">Disponibilizar meu espaço <ArrowRight /></Button></div><div className="cta-leaf" aria-hidden="true" /></div>
+            <div className="relative flex items-center px-7 py-10 md:px-12"><div><p className="mb-2 text-[0.58rem] font-semibold uppercase tracking-[0.2em] text-primary">Para anfitriões</p><h2 className="font-serif text-3xl leading-tight text-primary">Tem um espaço parado?</h2><p className="mt-3 max-w-md text-[0.7rem] leading-5 text-muted-foreground">Transforme um espaço que você não está usando em uma oportunidade para alguém.</p><Button variant="editorial" size="sm" className="mt-5 px-5 text-[0.65rem]" onClick={offerSpace}>Disponibilizar meu espaço <ArrowRight /></Button></div><div className="cta-leaf" aria-hidden="true" /></div>
           </div>
         </section>
       </main>
