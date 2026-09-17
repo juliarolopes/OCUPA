@@ -59,13 +59,13 @@ function Index() {
         </section>
 
         <section id="explorar" className="mx-auto max-w-[1120px] px-5 py-10 md:px-8 md:py-12">
-          <SectionHeader title="Encontre um espaço para..." />
+          <SectionHeader title="Encontre um lugar para..." />
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">{categories.map((category) => <CategoryCard key={category.label} category={category} />)}</div>
         </section>
 
         <section>
           <div className="mx-auto max-w-[1120px] px-5 py-8 md:px-8 md:py-10">
-            <div className="flex items-end justify-between gap-5"><SectionHeader title="Espaços em destaque" /><a href="#explorar" className="mb-7 hidden text-[0.65rem] font-semibold text-primary sm:block">Ver todos os espaços →</a></div>
+            <div className="flex items-end justify-between gap-5"><SectionHeader title="Espaços em destaque" /></div>
             <SpaceGrid />
           </div>
         </section>
