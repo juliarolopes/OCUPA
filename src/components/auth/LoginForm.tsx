@@ -33,7 +33,7 @@ function validate(email: string, password: string): FieldErrors {
 }
 
 export function LoginForm({
-  headline = "Bem-vindo de volta.",
+  headline = "Seja bem-vindo!",
   support = "Entre na sua conta para continuar.",
   idPrefix = "login",
   showBrand = true,

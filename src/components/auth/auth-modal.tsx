@@ -9,7 +9,7 @@ export type AuthCopy = {
 
 export const authCopy: Record<AuthIntent, AuthCopy> = {
   default: {
-    headline: "Bem-vindo de volta.",
+    headline: "Seja bem-vindo!",
     support: "Entre na sua conta para continuar.",
   },
   host: {
