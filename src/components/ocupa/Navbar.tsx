@@ -34,15 +34,15 @@ export function Navbar() {
   };
 
   const navItems = [
-    { href: "#explorar", label: "Explorar" },
-    { href: "#como-funciona", label: "Como funciona" },
-    { href: "#anunciar", label: "Disponibilize seu espaço" },
+    { href: "/#explorar", label: "Explorar" },
+    { href: "/#como-funciona", label: "Como funciona" },
+    { href: "/#anunciar", label: "Disponibilize seu espaço" },
   ];
 
   return (
     <header className="relative z-30 border-b border-border bg-background">
       <div className="mx-auto grid h-16 max-w-[1440px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 lg:grid-cols-[auto_1fr_auto] lg:px-6">
-        <a href="#top" onClick={() => navigateTo("#top")} className="font-serif text-[1.45rem] text-primary transition-opacity duration-200 active:opacity-60" aria-label="OCUPA, início">OCUPA</a>
+        <a href="/" onClick={() => setOpen(false)} className="font-serif text-[1.45rem] text-primary transition-opacity duration-200 active:opacity-60" aria-label="OCUPA, início">OCUPA</a>
         <nav className="ml-14 hidden h-full items-center gap-8 text-sm font-normal lg:flex" aria-label="Navegação principal">
           {navItems.map((item) => (
             <a
