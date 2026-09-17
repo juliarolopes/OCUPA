@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscarRouteImport } from './routes/buscar'
+import { Route as EspacosIdRouteImport } from './routes/espacos/$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const BuscarRoute = BuscarRouteImport.update({
   path: '/buscar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EspacosIdRoute = EspacosIdRouteImport.update({
+  id: '/espacos/$id',
+  path: '/espacos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/buscar'
+  fullPaths: '/' | '/buscar' | '/espacos/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/buscar'
-  id: '__root__' | '/' | '/buscar'
+  to: '/' | '/buscar' | '/espacos/$id'
+  id: '__root__' | '/' | '/buscar' | '/espacos/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscarRoute: typeof BuscarRoute
+  EspacosIdRoute: typeof EspacosIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuscarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/espacos/$id': {
+      id: '/espacos/$id'
+      path: '/espacos/$id'
+      fullPath: '/espacos/$id'
+      preLoaderRoute: typeof EspacosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuscarRoute: BuscarRoute,
+  EspacosIdRoute: EspacosIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

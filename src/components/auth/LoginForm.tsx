@@ -145,7 +145,7 @@ export function LoginForm({
         {onSwitchToRegister ? (
           <button type="button" onClick={onSwitchToRegister} className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</button>
         ) : (
-          <Link to="/cadastro" className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</Link>
+          <a href="/cadastro" className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</a>
         )}
       </p>
     </div>

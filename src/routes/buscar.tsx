@@ -113,7 +113,7 @@ function SearchPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar compact />
 
       <main>
         <section className="border-b border-border bg-background">

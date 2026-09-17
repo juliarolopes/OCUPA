@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Heart, MapPin, Ruler, Star } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import type { Space } from "@/data/ocupa";
@@ -33,8 +34,14 @@ export function SearchResults({
             key={space.id}
             onMouseEnter={() => onSpaceHover?.(space.id)}
             onMouseLeave={() => onSpaceHover?.(null)}
-            className="group overflow-hidden rounded-lg border border-border bg-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-20px_var(--foreground)]"
+            className="group relative overflow-hidden rounded-lg border border-border bg-card transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_-20px_var(--foreground)]"
           >
+            <Link
+              to="/espacos/$id"
+              params={{ id: String(space.id) }}
+              className="absolute inset-0 z-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+              aria-label={`Ver detalhes de ${space.name}`}
+            />
             <div className="relative aspect-[1.65/1] overflow-hidden bg-muted">
               <img
                 src={space.image}
@@ -52,7 +59,7 @@ export function SearchResults({
                     ? `Remover ${space.name} dos favoritos`
                     : `Favoritar ${space.name}`
                 }
-                className="absolute right-3 top-3 size-8 rounded-full bg-foreground/20 text-card backdrop-blur-sm hover:bg-card hover:text-terracotta"
+                className="absolute right-3 top-3 z-20 size-8 rounded-full bg-foreground/20 text-card backdrop-blur-sm hover:bg-card hover:text-terracotta"
               >
                 <Heart
                   className="size-4"
