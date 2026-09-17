@@ -9,8 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 type FieldErrors = {
-  email?: string;
-  password?: string;
+  email?: string | undefined;
+  password?: string | undefined;
 };
 
 function validate(email: string, password: string): FieldErrors {
