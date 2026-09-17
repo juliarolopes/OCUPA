@@ -36,7 +36,7 @@ export function Navbar() {
   const navItems = [
     { href: "#explorar", label: "Explorar" },
     { href: "#como-funciona", label: "Como funciona" },
-    { href: "#anunciar", label: "Disponibilizar espaço" },
+    { href: "#anunciar", label: "Disponibilize seu espaço" },
   ];
 
   return (
@@ -63,7 +63,7 @@ export function Navbar() {
           ) : (
             <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" onClick={openLogin}><LogIn strokeWidth={1.7} /> Entrar</Button>
           )}
-          <Button variant="editorial" className="ml-2 h-10 px-5 text-xs transition-[background-color,transform] active:scale-[0.97]" onClick={offerSpace}>Disponibilizar espaço</Button>
+          <Button variant="editorial" className="ml-2 h-10 px-5 text-xs transition-[background-color,transform] active:scale-[0.97]" onClick={offerSpace}>Disponibilizar meu espaço</Button>
         </div>
         <Button variant="ghost" size="icon" className="justify-self-end lg:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Fechar menu" : "Abrir menu"} aria-expanded={open}>
           {open ? <X /> : <Menu />}
