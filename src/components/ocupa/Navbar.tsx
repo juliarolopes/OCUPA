@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Heart, LogIn, Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -37,7 +38,7 @@ export function Navbar() {
         </nav>
         <div className="hidden items-center gap-1 text-sm lg:flex">
           <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]"><Heart strokeWidth={1.7} /> Favoritos</Button>
-          <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]"><LogIn strokeWidth={1.7} /> Entrar</Button>
+          <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" asChild><Link to="/entrar"><LogIn strokeWidth={1.7} /> Entrar</Link></Button>
           <Button variant="editorial" className="ml-2 h-10 px-5 text-xs transition-[background-color,transform] active:scale-[0.97]" asChild><a href="#anunciar" onClick={() => navigateTo("#anunciar")}>Disponibilizar espaço</a></Button>
         </div>
         <Button variant="ghost" size="icon" className="justify-self-end lg:hidden" onClick={() => setOpen((value) => !value)} aria-label={open ? "Fechar menu" : "Abrir menu"} aria-expanded={open}>
@@ -48,7 +49,7 @@ export function Navbar() {
         <nav className="animate-fade-in border-t border-border bg-background px-5 py-3 shadow-sm lg:hidden" aria-label="Navegação móvel">
           <div className="mx-auto flex max-w-[1120px] flex-col text-sm">
             {navItems.map((item) => <a key={item.href} href={item.href} onClick={() => navigateTo(item.href)} className="border-b border-border/70 py-3.5 font-medium transition-colors active:text-primary">{item.label}</a>)}
-             <a href="#explorar" onClick={() => navigateTo("#explorar")} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</a><a href="#top" onClick={() => navigateTo("#top")} className="flex items-center gap-2 py-3.5"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</a>
+             <a href="#explorar" onClick={() => navigateTo("#explorar")} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</a><Link to="/entrar" onClick={() => setOpen(false)} className="flex items-center gap-2 py-3.5"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</Link>
           </div>
         </nav>
       )}
