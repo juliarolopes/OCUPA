@@ -13,6 +13,16 @@ type FieldErrors = {
   password?: string | undefined;
 };
 
+type LoginFormProps = {
+  headline?: string;
+  support?: string;
+  idPrefix?: string;
+  showBrand?: boolean;
+  showHeading?: boolean;
+  onSuccess?: () => void | Promise<void>;
+  onSwitchToRegister?: (() => void) | undefined;
+};
+
 function validate(email: string, password: string): FieldErrors {
   const errors: FieldErrors = {};
   if (!email.trim()) errors.email = "Informe seu e-mail.";
@@ -21,16 +31,31 @@ function validate(email: string, password: string): FieldErrors {
   return errors;
 }
 
-export function LoginForm() {
+export function LoginForm({
+  headline = "Bem-vindo de volta.",
+  support = "Entre na sua conta para continuar.",
+  idPrefix = "login",
+  showBrand = true,
+  showHeading = true,
+  onSuccess,
+  onSwitchToRegister,
+}: LoginFormProps) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<FieldErrors>({});
   const [loading, setLoading] = useState(false);
 
+  const id = (field: string) => `${idPrefix}-${field}`;
+
   const completeMockLogin = async () => {
     setLoading(true);
     await new Promise((resolve) => window.setTimeout(resolve, 850));
+    if (onSuccess) {
+      await onSuccess();
+      setLoading(false);
+      return;
+    }
     await navigate({ to: "/", hash: "explorar" });
   };
 
@@ -44,19 +69,23 @@ export function LoginForm() {
 
   return (
     <div>
-      <Link to="/" className="hidden w-fit font-serif text-[1.45rem] text-primary transition-opacity hover:opacity-70 lg:block" aria-label="OCUPA, página inicial">
-        OCUPA
-      </Link>
-      <div className="mt-0 lg:mt-14">
-        <p className="mb-3 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-primary">Sua conta</p>
-        <h1 className="font-serif text-[2.5rem] leading-none text-primary sm:text-[2.8rem]">Bem-vindo de volta.</h1>
-        <p className="mt-4 text-sm text-muted-foreground">Entre na sua conta para continuar.</p>
-      </div>
+      {showBrand ? (
+        <Link to="/" className="hidden w-fit font-serif text-[1.45rem] text-primary transition-opacity hover:opacity-70 lg:block" aria-label="OCUPA, página inicial">
+          OCUPA
+        </Link>
+      ) : null}
+      {showHeading ? (
+        <div className={showBrand ? "mt-0 lg:mt-14" : "mt-0"}>
+          <p className="mb-3 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-primary">Sua conta</p>
+          <h1 className="font-serif text-[2.5rem] leading-none text-primary sm:text-[2.8rem]">{headline}</h1>
+          <p className="mt-4 text-sm text-muted-foreground">{support}</p>
+        </div>
+      ) : null}
 
-      <form className="mt-8 space-y-5" noValidate onSubmit={handleSubmit}>
-        <FormField htmlFor="email" label="E-mail" error={errors.email}>
+      <form className={showHeading ? "mt-8 space-y-5" : "space-y-5"} noValidate onSubmit={handleSubmit}>
+        <FormField htmlFor={id("email")} label="E-mail" error={errors.email}>
           <Input
-            id="email"
+            id={id("email")}
             name="email"
             type="email"
             autoComplete="email"
@@ -67,20 +96,20 @@ export function LoginForm() {
               if (errors.email) setErrors((current) => ({ ...current, email: undefined }));
             }}
             aria-invalid={Boolean(errors.email)}
-            aria-describedby={errors.email ? "email-error" : undefined}
+            aria-describedby={errors.email ? `${id("email")}-error` : undefined}
             disabled={loading}
             className="h-12 rounded-md border-border bg-card shadow-none focus-visible:ring-2 focus-visible:ring-ring"
           />
         </FormField>
 
         <FormField
-          htmlFor="password"
+          htmlFor={id("password")}
           label="Senha"
           error={errors.password}
           labelAction={<a href="#recuperar" className="text-xs text-primary underline-offset-4 hover:underline">Esqueci minha senha</a>}
         >
           <PasswordInput
-            id="password"
+            id={id("password")}
             name="password"
             autoComplete="current-password"
             placeholder="Sua senha"
@@ -90,7 +119,7 @@ export function LoginForm() {
               if (errors.password) setErrors((current) => ({ ...current, password: undefined }));
             }}
             aria-invalid={Boolean(errors.password)}
-            aria-describedby={errors.password ? "password-error" : undefined}
+            aria-describedby={errors.password ? `${id("password")}-error` : undefined}
             disabled={loading}
           />
         </FormField>
@@ -110,7 +139,11 @@ export function LoginForm() {
 
       <p className="mt-7 text-center text-sm text-muted-foreground">
         Ainda não tem uma conta?{" "}
-        <Link to="/cadastro" className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</Link>
+        {onSwitchToRegister ? (
+          <button type="button" onClick={onSwitchToRegister} className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</button>
+        ) : (
+          <Link to="/cadastro" className="font-medium text-primary underline-offset-4 hover:underline">Criar conta</Link>
+        )}
       </p>
     </div>
   );
