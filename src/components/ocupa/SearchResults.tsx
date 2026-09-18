@@ -1,8 +1,7 @@
-import { useState } from "react";
-import { Heart, MapPin, Ruler, Star } from "lucide-react";
+import { MapPin, Ruler, Star } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
-import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/ocupa/FavoriteButton";
 import type { Space } from "@/data/ocupa";
 
 type SearchResultsProps = {
@@ -14,21 +13,9 @@ export function SearchResults({
   spaces,
   onSpaceHover,
 }: SearchResultsProps) {
-  const [favorites, setFavorites] = useState<number[]>([]);
-
-  function toggleFavorite(id: number) {
-    setFavorites((current) =>
-      current.includes(id)
-        ? current.filter((favoriteId) => favoriteId !== id)
-        : [...current, id],
-    );
-  }
-
   return (
     <div className="grid gap-4 sm:grid-cols-2">
       {spaces.map((space) => {
-        const favorite = favorites.includes(space.id);
-
         return (
           <article
             key={space.id}
@@ -49,23 +36,7 @@ export function SearchResults({
                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
               />
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => toggleFavorite(space.id)}
-                aria-label={
-                  favorite
-                    ? `Remover ${space.name} dos favoritos`
-                    : `Favoritar ${space.name}`
-                }
-                className="absolute right-3 top-3 z-20 size-8 rounded-full bg-foreground/20 text-card backdrop-blur-sm hover:bg-card hover:text-terracotta"
-              >
-                <Heart
-                  className="size-4"
-                  fill={favorite ? "currentColor" : "none"}
-                />
-              </Button>
+              <FavoriteButton spaceId={space.id} className="absolute right-3 top-3 z-20" />
 
               <span className="absolute bottom-3 left-3 rounded-full bg-card/95 px-3 py-1 text-[0.58rem] font-semibold text-foreground backdrop-blur-sm">
                 {space.type}

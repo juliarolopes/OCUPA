@@ -1,7 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
-import { ArrowLeft, Heart, MapPin, Star } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, MapPin, Star } from "lucide-react";
 
+import { FavoriteButton } from "@/components/ocupa/FavoriteButton";
 import { Footer } from "@/components/ocupa/Footer";
 import { Navbar } from "@/components/ocupa/Navbar";
 import { SpaceBookingCard } from "@/components/ocupa/SpaceBookingCard";
@@ -18,7 +18,6 @@ export const Route = createFileRoute("/espacos/$id")({
 function SpaceDetailPage() {
   const { id } = Route.useParams();
   const space = getSpaceById(id);
-  const [favorite, setFavorite] = useState(false);
 
   if (!space) {
     return (
@@ -79,16 +78,7 @@ function SpaceDetailPage() {
                 </span>
               </div>
             </div>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setFavorite((current) => !current)}
-              aria-pressed={favorite}
-              className="w-fit rounded-full bg-background shadow-none"
-            >
-              <Heart className={favorite ? "fill-terracotta text-terracotta" : ""} />{" "}
-              {favorite ? "Salvo" : "Favoritar"}
-            </Button>
+            <FavoriteButton spaceId={space.id} showLabel />
           </header>
 
           <SpaceGallery images={space.images} name={space.name} />

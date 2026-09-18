@@ -1,16 +1,14 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, MapPin, Ruler, Star } from "lucide-react";
+import { MapPin, Ruler, Star } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { FavoriteButton } from "@/components/ocupa/FavoriteButton";
 import { formatSpacePrice, type Space } from "@/data/ocupa";
 
 type SpaceCardProps = {
   space: Space;
-  favorite: boolean;
-  onFavorite: () => void;
 };
 
-export function SpaceCard({ space, favorite, onFavorite }: SpaceCardProps) {
+export function SpaceCard({ space }: SpaceCardProps) {
   return (
     <article className="group relative min-w-0 overflow-hidden rounded-lg border border-border bg-card shadow-[0_8px_24px_-20px_var(--foreground)] transition-transform hover:-translate-y-0.5">
       <Link
@@ -63,16 +61,7 @@ export function SpaceCard({ space, favorite, onFavorite }: SpaceCardProps) {
         </div>
       </Link>
 
-      <Button
-        type="button"
-        variant="ghost"
-        size="icon"
-        onClick={onFavorite}
-        aria-label={favorite ? `Remover ${space.name} dos favoritos` : `Favoritar ${space.name}`}
-        className="absolute right-2 top-2 size-8 rounded-full bg-foreground/20 text-card backdrop-blur-sm hover:bg-card hover:text-terracotta"
-      >
-        <Heart className="size-5" fill={favorite ? "currentColor" : "none"} />
-      </Button>
+      <FavoriteButton spaceId={space.id} className="absolute right-2 top-2 z-20" />
     </article>
   );
 }

@@ -14,6 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { AuthProvider } from "@/components/auth/auth-context";
 import { AuthModalProvider } from "@/components/auth/auth-modal";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 function NotFoundComponent() {
   return (
@@ -129,11 +130,13 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <AuthModalProvider>
-          {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-          <Outlet />
-          <AuthModal />
-        </AuthModalProvider>
+        <FavoritesProvider>
+          <AuthModalProvider>
+            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+            <Outlet />
+            <AuthModal />
+          </AuthModalProvider>
+        </FavoritesProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

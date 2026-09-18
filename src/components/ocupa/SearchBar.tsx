@@ -135,7 +135,7 @@ export function SearchBar() {
             variant="editorial"
             className="h-12 w-full px-6 text-[0.72rem] md:h-full md:min-w-[9.5rem]"
           >
-            Encontrar espaço
+            Encontrar
             <span aria-hidden="true">→</span>
           </Button>
         </div>

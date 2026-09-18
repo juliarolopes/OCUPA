@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Heart, LogIn, Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -57,7 +58,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
           ))}
         </nav>
         <div className={`hidden items-center gap-1 text-sm ${compact ? "" : "lg:flex"}`}>
-          <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]"><Heart strokeWidth={1.7} /> Favoritos</Button>
+          <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" asChild><Link to="/favoritos"><Heart strokeWidth={1.7} /> Favoritos</Link></Button>
           {user ? (
             <span className="px-3 text-xs font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
           ) : (
@@ -73,7 +74,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
         <nav className={`animate-fade-in border-t border-border bg-background px-5 py-3 shadow-sm ${compact ? "" : "lg:hidden"}`} aria-label="Navegação móvel">
           <div className="mx-auto flex max-w-[1120px] flex-col text-sm">
             {navItems.map((item) => <a key={item.href} href={item.href} onClick={() => navigateTo(item.href)} className="border-b border-border/70 py-3.5 font-medium transition-colors active:text-primary">{item.label}</a>)}
-            <a href="#explorar" onClick={() => navigateTo("#explorar")} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</a>
+            <Link to="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</Link>
             {user ? (
               <span className="py-3.5 font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
             ) : (
