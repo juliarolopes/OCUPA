@@ -8,10 +8,10 @@ import {
   type ReactNode,
 } from "react";
 
-import { getSpaceById, spaces, type Space } from "@/data/ocupa";
+import { useSpaces } from "@/context/SpacesContext";
+import type { Space } from "@/data/ocupa";
 
 const STORAGE_KEY = "ocupa:favorites";
-const validSpaceIds = new Set(spaces.map((space) => space.id));
 
 type FavoritesContextValue = {
   favoriteIds: number[];
@@ -26,12 +26,7 @@ const FavoritesContext = createContext<FavoritesContextValue | null>(null);
 function sanitizeFavoriteIds(value: unknown): number[] {
   if (!Array.isArray(value)) return [];
   return [
-    ...new Set(
-      value.filter(
-        (id): id is number =>
-          typeof id === "number" && Number.isInteger(id) && validSpaceIds.has(id),
-      ),
-    ),
+    ...new Set(value.filter((id): id is number => typeof id === "number" && Number.isInteger(id))),
   ];
 }
 
@@ -44,6 +39,7 @@ function persistFavoriteIds(ids: number[]) {
 }
 
 export function FavoritesProvider({ children }: { children: ReactNode }) {
+  const { spaces, getSpaceById } = useSpaces();
   const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const [isReady, setIsReady] = useState(false);
 
@@ -67,21 +63,24 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
 
   const isFavorite = useCallback((spaceId: number) => favoriteIds.includes(spaceId), [favoriteIds]);
 
-  const toggleFavorite = useCallback((spaceId: number) => {
-    if (!validSpaceIds.has(spaceId)) return;
+  const toggleFavorite = useCallback(
+    (spaceId: number) => {
+      if (!spaces.some((space) => space.id === spaceId)) return;
 
-    setFavoriteIds((current) => {
-      // Futuramente, substituir esta mutação por POST/DELETE /api/favorites/ do Django/DRF.
-      return current.includes(spaceId)
-        ? current.filter((id) => id !== spaceId)
-        : [...current, spaceId];
-    });
-  }, []);
+      setFavoriteIds((current) => {
+        // Futuramente, substituir esta mutação por POST/DELETE /api/favorites/ do Django/DRF.
+        return current.includes(spaceId)
+          ? current.filter((id) => id !== spaceId)
+          : [...current, spaceId];
+      });
+    },
+    [spaces],
+  );
 
   const favorites = useMemo(
     () =>
       favoriteIds.map((id) => getSpaceById(id)).filter((space): space is Space => Boolean(space)),
-    [favoriteIds],
+    [favoriteIds, getSpaceById],
   );
 
   const value = useMemo(

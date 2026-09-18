@@ -2,30 +2,28 @@ import { MapPin } from "lucide-react";
 
 import type { Space } from "@/data/ocupa";
 
+type MappedSpace = Pick<
+  Space,
+  "id" | "name" | "latitude" | "longitude" | "priceValue" | "priceUnit"
+>;
+
 type SpaceMapProps = {
-  spaces: Space[];
+  spaces: MappedSpace[];
   activeSpaceId: number | null;
   onSpaceSelect: (id: number) => void;
 };
 
 const bounds = {
   minLat: -23.63,
-  maxLat: -23.50,
+  maxLat: -23.5,
   minLng: -46.73,
   maxLng: -46.57,
 };
 
-function getPosition(space: Space) {
-  const left =
-    ((space.longitude - bounds.minLng) /
-      (bounds.maxLng - bounds.minLng)) *
-    100;
+function getPosition(space: MappedSpace) {
+  const left = ((space.longitude - bounds.minLng) / (bounds.maxLng - bounds.minLng)) * 100;
 
-  const top =
-    100 -
-    ((space.latitude - bounds.minLat) /
-      (bounds.maxLat - bounds.minLat)) *
-      100;
+  const top = 100 - ((space.latitude - bounds.minLat) / (bounds.maxLat - bounds.minLat)) * 100;
 
   return {
     left: `${Math.min(94, Math.max(6, left))}%`,
@@ -33,11 +31,7 @@ function getPosition(space: Space) {
   };
 }
 
-export function SpaceMap({
-  spaces,
-  activeSpaceId,
-  onSpaceSelect,
-}: SpaceMapProps) {
+export function SpaceMap({ spaces, activeSpaceId, onSpaceSelect }: SpaceMapProps) {
   return (
     <div className="relative h-full min-h-[520px] overflow-hidden bg-[#E8E5DD]">
       {/* Malha urbana */}
@@ -58,9 +52,7 @@ export function SpaceMap({
         <p className="text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-primary">
           Mapa
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">
-          Espaços encontrados
-        </p>
+        <p className="mt-1 text-xs text-muted-foreground">Espaços encontrados</p>
       </div>
 
       <div className="absolute bottom-5 left-5 z-10 rounded-lg bg-card/90 px-3 py-2 text-[0.58rem] text-muted-foreground shadow-sm backdrop-blur-sm">

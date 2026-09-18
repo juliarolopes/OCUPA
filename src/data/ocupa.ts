@@ -33,6 +33,23 @@ export type SpaceAvailability = {
   slots: AvailabilitySlot[];
 };
 
+export type SpaceAddress = {
+  postalCode: string;
+  street: string;
+  number: string;
+  complement?: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+};
+
+export type SpacePublishingAvailability = {
+  weekdays: number[];
+  startTime: string;
+  endTime: string;
+  blockedDates: string[];
+};
+
 export type Space = {
   id: number;
   name: string;
@@ -57,6 +74,9 @@ export type Space = {
   latitude: number;
   longitude: number;
   availability: SpaceAvailability[];
+  address?: SpaceAddress;
+  publishingAvailability?: SpacePublishingAvailability;
+  ownerId?: string;
 };
 
 export const categories: Category[] = [
@@ -100,6 +120,31 @@ function createAvailability(seed: number): SpaceAvailability[] {
         time,
         available: available && (slotIndex + index + seed) % 4 !== 0,
       })),
+    };
+  });
+}
+
+export function createAvailabilityFromSchedule(
+  schedule: SpacePublishingAvailability,
+): SpaceAvailability[] {
+  const blockedDates = new Set(schedule.blockedDates);
+  const startHour = Number(schedule.startTime.slice(0, 2));
+  const endHour = Number(schedule.endTime.slice(0, 2));
+  const times = Array.from(
+    { length: Math.max(0, endHour - startHour) },
+    (_, index) => `${String(startHour + index).padStart(2, "0")}:00`,
+  );
+
+  return Array.from({ length: 45 }, (_, index) => {
+    const date = new Date();
+    date.setHours(12, 0, 0, 0);
+    date.setDate(date.getDate() + index + 1);
+    const dateKey = toLocalDateKey(date);
+    const available = schedule.weekdays.includes(date.getDay()) && !blockedDates.has(dateKey);
+    return {
+      date: dateKey,
+      available,
+      slots: times.map((time) => ({ time, available })),
     };
   });
 }

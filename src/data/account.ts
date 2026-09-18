@@ -1,4 +1,4 @@
-import { getSpaceById, toLocalDateKey, type Space } from "@/data/ocupa";
+import { toLocalDateKey, type Space } from "@/data/ocupa";
 
 export type ReservationStatus = "confirmed" | "pending" | "cancelled";
 
@@ -55,9 +55,10 @@ export function getUserReservations() {
   return reservations;
 }
 
-export function getUserHostedSpaces(): Space[] {
+export function getUserHostedSpaces(userId: string, availableSpaces: Space[]): Space[] {
   // Futuramente, substituir por GET /api/meus-espacos/.
-  return hostedSpaceIds
-    .map((id) => getSpaceById(id))
-    .filter((space): space is Space => Boolean(space));
+  return availableSpaces.filter(
+    (space) =>
+      space.ownerId === userId || (userId === "mock-user" && hostedSpaceIds.includes(space.id)),
+  );
 }

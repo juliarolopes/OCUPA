@@ -9,7 +9,8 @@ import { SpaceDetails } from "@/components/ocupa/SpaceDetails";
 import { SpaceGallery } from "@/components/ocupa/SpaceGallery";
 import { SpaceLocationMap } from "@/components/ocupa/SpaceLocationMap";
 import { Button } from "@/components/ui/button";
-import { getSpaceById } from "@/data/ocupa";
+import { useSpaces } from "@/context/SpacesContext";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/espacos/$id")({
   component: SpaceDetailPage,
@@ -17,7 +18,28 @@ export const Route = createFileRoute("/espacos/$id")({
 
 function SpaceDetailPage() {
   const { id } = Route.useParams();
+  const { getSpaceById, isReady } = useSpaces();
   const space = getSpaceById(id);
+  const [showPublishedConfirmation, setShowPublishedConfirmation] = useState(false);
+
+  useEffect(() => {
+    const confirmationId = window.sessionStorage.getItem("ocupa:published-space-confirmation");
+    if (confirmationId !== id) return;
+    setShowPublishedConfirmation(true);
+    window.sessionStorage.removeItem("ocupa:published-space-confirmation");
+  }, [id]);
+
+  if (!space && !isReady) {
+    return (
+      <div className="flex min-h-dvh flex-col bg-background">
+        <Navbar compact />
+        <main className="grid flex-1 place-items-center px-5 py-20">
+          <p className="text-sm text-muted-foreground">Carregando espaço…</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!space) {
     return (
@@ -47,6 +69,17 @@ function SpaceDetailPage() {
       <Navbar compact />
       <main>
         <div className="mx-auto max-w-[1180px] px-5 pb-16 pt-7 md:px-8 md:pb-24 md:pt-10">
+          {showPublishedConfirmation ? (
+            <div
+              role="status"
+              className="mb-7 border-l-4 border-primary bg-light-green/70 px-5 py-4"
+            >
+              <p className="font-semibold text-primary">Seu espaço está pronto.</p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                O anúncio foi salvo neste navegador e já pode ser consultado no OCUPA.
+              </p>
+            </div>
+          ) : null}
           <nav aria-label="Navegação estrutural" className="text-xs text-muted-foreground">
             <Link
               to="/buscar"

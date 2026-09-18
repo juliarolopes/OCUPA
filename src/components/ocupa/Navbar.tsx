@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { Heart, LogIn, Menu, X } from "lucide-react";
 import { useState } from "react";
 
@@ -12,6 +12,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
   const [activeItem, setActiveItem] = useState("#top");
   const { user } = useAuth();
   const { openAuth } = useAuthModal();
+  const navigate = useNavigate();
 
   const navigateTo = (target: string) => {
     setActiveItem(target);
@@ -26,12 +27,11 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
   const offerSpace = () => {
     setOpen(false);
     if (user) {
-      // TODO: navegar para a futura rota de cadastro de espaço quando ela existir.
+      void navigate({ to: "/espacos/novo" });
       return;
     }
     openAuth("host", {
-      // TODO: navegar para a futura rota de cadastro de espaço após autenticar.
-      onSuccess: () => undefined,
+      onSuccess: () => navigate({ to: "/espacos/novo" }),
     });
   };
 

@@ -15,6 +15,7 @@ import { AuthModal } from "@/components/auth/AuthModal";
 import { AuthProvider } from "@/components/auth/auth-context";
 import { AuthModalProvider } from "@/components/auth/auth-modal";
 import { FavoritesProvider } from "@/context/FavoritesContext";
+import { SpacesProvider } from "@/context/SpacesContext";
 
 function NotFoundComponent() {
   return (
@@ -130,13 +131,15 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <FavoritesProvider>
-          <AuthModalProvider>
-            {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-            <Outlet />
-            <AuthModal />
-          </AuthModalProvider>
-        </FavoritesProvider>
+        <SpacesProvider>
+          <FavoritesProvider>
+            <AuthModalProvider>
+              {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+              <Outlet />
+              <AuthModal />
+            </AuthModalProvider>
+          </FavoritesProvider>
+        </SpacesProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

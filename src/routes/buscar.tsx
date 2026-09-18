@@ -4,24 +4,15 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/ocupa/Navbar";
-import {
-  SearchFilters,
-  type SearchFiltersState,
-} from "@/components/ocupa/SearchFilters";
+import { SearchFilters, type SearchFiltersState } from "@/components/ocupa/SearchFilters";
 import { SearchResults } from "@/components/ocupa/SearchResults";
 import { SpaceMap } from "@/components/ocupa/SpaceMap";
-import { spaces } from "@/data/ocupa";
+import { useSpaces } from "@/context/SpacesContext";
 
 export const Route = createFileRoute("/buscar")({
   validateSearch: (search: Record<string, unknown>) => ({
-    necessidade:
-      typeof search["necessidade"] === "string"
-        ? search["necessidade"]
-        : "",
-    localizacao:
-      typeof search["localizacao"] === "string"
-        ? search["localizacao"]
-        : "",
+    necessidade: typeof search["necessidade"] === "string" ? search["necessidade"] : "",
+    localizacao: typeof search["localizacao"] === "string" ? search["localizacao"] : "",
     data: typeof search["data"] === "string" ? search["data"] : "",
   }),
   component: SearchPage,
@@ -36,6 +27,7 @@ function normalize(value: string) {
 }
 
 function SearchPage() {
+  const { spaces } = useSpaces();
   const { necessidade, localizacao, data } = Route.useSearch();
 
   const [filters, setFilters] = useState<SearchFiltersState>({
@@ -77,20 +69,13 @@ function SearchPage() {
         normalize(space.neighborhood).includes(normalizedLocation) ||
         normalize(space.city).includes(normalizedLocation);
 
-      const matchesPrice =
-        filters.maxPrice === null ||
-        space.priceValue <= filters.maxPrice;
+      const matchesPrice = filters.maxPrice === null || space.priceValue <= filters.maxPrice;
 
-      const matchesArea =
-        filters.minArea === null ||
-        space.areaValue >= filters.minArea;
+      const matchesArea = filters.minArea === null || space.areaValue >= filters.minArea;
 
-      const matchesType =
-        !filters.type || space.type === filters.type;
+      const matchesType = !filters.type || space.type === filters.type;
 
-      const matchesAmenity =
-        !filters.amenity ||
-        space.amenities.includes(filters.amenity);
+      const matchesAmenity = !filters.amenity || space.amenities.includes(filters.amenity);
 
       return (
         matchesNeed &&
@@ -101,13 +86,9 @@ function SearchPage() {
         matchesAmenity
       );
     });
-  }, [necessidade, localizacao, filters]);
+  }, [necessidade, localizacao, filters, spaces]);
 
-  const searchDescription = [
-    necessidade && `"${necessidade}"`,
-    localizacao,
-    data,
-  ]
+  const searchDescription = [necessidade && `"${necessidade}"`, localizacao, data]
     .filter(Boolean)
     .join(" · ");
 
@@ -133,9 +114,7 @@ function SearchPage() {
                 </h1>
 
                 {searchDescription && (
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    Busca: {searchDescription}
-                  </p>
+                  <p className="mt-3 text-xs text-muted-foreground">Busca: {searchDescription}</p>
                 )}
               </div>
 
@@ -145,9 +124,7 @@ function SearchPage() {
                   variant="ghost"
                   onClick={() => setMobileView("list")}
                   className={`h-8 rounded-full px-4 text-xs ${
-                    mobileView === "list"
-                      ? "bg-primary text-primary-foreground"
-                      : ""
+                    mobileView === "list" ? "bg-primary text-primary-foreground" : ""
                   }`}
                 >
                   <List className="size-3.5" />
@@ -159,9 +136,7 @@ function SearchPage() {
                   variant="ghost"
                   onClick={() => setMobileView("map")}
                   className={`h-8 rounded-full px-4 text-xs ${
-                    mobileView === "map"
-                      ? "bg-primary text-primary-foreground"
-                      : ""
+                    mobileView === "map" ? "bg-primary text-primary-foreground" : ""
                   }`}
                 >
                   <Map className="size-3.5" />
@@ -171,11 +146,7 @@ function SearchPage() {
             </div>
 
             <div className="mt-6">
-              <SearchFilters
-                spaces={spaces}
-                filters={filters}
-                onChange={setFilters}
-              />
+              <SearchFilters spaces={spaces} filters={filters} onChange={setFilters} />
             </div>
           </div>
         </section>
@@ -205,23 +176,17 @@ function SearchPage() {
             </div>
 
             {filteredSpaces.length > 0 ? (
-              <SearchResults
-                spaces={filteredSpaces}
-                onSpaceHover={setActiveSpaceId}
-              />
+              <SearchResults spaces={filteredSpaces} onSpaceHover={setActiveSpaceId} />
             ) : (
               <div className="flex min-h-[420px] flex-col items-center justify-center rounded-lg border border-dashed border-border bg-card/50 px-6 text-center">
                 <div className="grid size-12 place-items-center rounded-full bg-light-green">
                   <SearchX className="size-5 text-primary" />
                 </div>
 
-                <h2 className="mt-5 font-serif text-2xl text-primary">
-                  Nenhum espaço encontrado.
-                </h2>
+                <h2 className="mt-5 font-serif text-2xl text-primary">Nenhum espaço encontrado.</h2>
 
                 <p className="mt-2 max-w-sm text-xs leading-5 text-muted-foreground">
-                  Tente mudar a localização, remover algum filtro ou procurar
-                  por outra finalidade.
+                  Tente mudar a localização, remover algum filtro ou procurar por outra finalidade.
                 </p>
               </div>
             )}

@@ -17,6 +17,7 @@ import { Route as FavoritosRouteImport } from './routes/favoritos'
 import { Route as MeusEspacosRouteImport } from './routes/meus-espacos'
 import { Route as ReservasRouteImport } from './routes/reservas'
 import { Route as EspacosIdRouteImport } from './routes/espacos/$id'
+import { Route as EspacosNovoRouteImport } from './routes/espacos/novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -58,6 +59,11 @@ const EspacosIdRoute = EspacosIdRouteImport.update({
   path: '/espacos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EspacosNovoRoute = EspacosNovoRouteImport.update({
+  id: '/espacos/novo',
+  path: '/espacos/novo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/meus-espacos': typeof MeusEspacosRoute
   '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
+  '/espacos/novo': typeof EspacosNovoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +85,7 @@ export interface FileRoutesByTo {
   '/meus-espacos': typeof MeusEspacosRoute
   '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
+  '/espacos/novo': typeof EspacosNovoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +97,7 @@ export interface FileRoutesById {
   '/meus-espacos': typeof MeusEspacosRoute
   '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
+  '/espacos/novo': typeof EspacosNovoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +110,7 @@ export interface FileRouteTypes {
     | '/meus-espacos'
     | '/reservas'
     | '/espacos/$id'
+    | '/espacos/novo'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +121,7 @@ export interface FileRouteTypes {
     | '/meus-espacos'
     | '/reservas'
     | '/espacos/$id'
+    | '/espacos/novo'
   id:
     | '__root__'
     | '/'
@@ -121,6 +132,7 @@ export interface FileRouteTypes {
     | '/meus-espacos'
     | '/reservas'
     | '/espacos/$id'
+    | '/espacos/novo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +144,7 @@ export interface RootRouteChildren {
   MeusEspacosRoute: typeof MeusEspacosRoute
   ReservasRoute: typeof ReservasRoute
   EspacosIdRoute: typeof EspacosIdRoute
+  EspacosNovoRoute: typeof EspacosNovoRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EspacosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/espacos/novo': {
+      id: '/espacos/novo'
+      path: '/espacos/novo'
+      fullPath: '/espacos/novo'
+      preLoaderRoute: typeof EspacosNovoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -204,6 +224,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeusEspacosRoute: MeusEspacosRoute,
   ReservasRoute: ReservasRoute,
   EspacosIdRoute: EspacosIdRoute,
+  EspacosNovoRoute: EspacosNovoRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
