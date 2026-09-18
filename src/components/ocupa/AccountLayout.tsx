@@ -20,17 +20,21 @@ export function AccountLayout({
   title,
   description,
 }: AccountLayoutProps) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isReady } = useAuth();
   const { openAuth } = useAuthModal();
 
   useEffect(() => {
-    if (!isAuthenticated) openAuth("default");
-  }, [isAuthenticated, openAuth]);
+    if (isReady && !isAuthenticated) openAuth("default");
+  }, [isAuthenticated, isReady, openAuth]);
 
   return (
     <div className="flex min-h-dvh flex-col bg-background">
       <Navbar compact />
-      {isAuthenticated ? (
+      {!isReady ? (
+        <main className="flex min-h-[34rem] flex-1 items-center justify-center px-5 py-16">
+          <p className="text-sm text-muted-foreground">Carregando sua conta…</p>
+        </main>
+      ) : isAuthenticated ? (
         <main className="mx-auto w-full max-w-[1080px] flex-1 px-5 pb-20 pt-10 md:px-8 md:pb-24">
           <header className="border-b border-border pb-8 md:pb-10">
             <p className="text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-terracotta">

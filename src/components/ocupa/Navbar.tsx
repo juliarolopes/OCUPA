@@ -44,7 +44,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
   return (
     <header className="relative z-30 border-b border-border bg-background">
       <div className="mx-auto grid h-16 max-w-[1440px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-5 lg:grid-cols-[auto_1fr_auto] lg:px-6">
-        <a href="/" onClick={() => setOpen(false)} className="font-serif text-[1.45rem] text-primary transition-opacity duration-200 active:opacity-60" aria-label="OCUPA, início">OCUPA</a>
+        <Link to="/" onClick={() => setOpen(false)} className="font-serif text-[1.45rem] text-primary transition-opacity duration-200 active:opacity-60" aria-label="OCUPA, início">OCUPA</Link>
         <nav className={`ml-14 hidden h-full items-center gap-8 text-sm font-normal ${compact ? "" : "lg:flex"}`} aria-label="Navegação principal">
           {navItems.map((item) => (
             <a
@@ -80,7 +80,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
             {!user ? (
               <button type="button" onClick={openLogin} className="flex items-center gap-2 py-3.5 text-left"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</button>
             ) : null}
-            <Button type="button" variant="editorial" className="my-2 w-full" onClick={offerSpace}>Disponibilizar espaço</Button>
+            <Button type="button" variant="editorial" className="my-2 w-full" onClick={offerSpace}>Disponibilizar meu espaço</Button>
           </div>
         </nav>
       )}
