@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { useAuth } from "@/components/auth/auth-context";
 import { useAuthModal } from "@/components/auth/auth-modal";
+import { MobileUserMenu, UserMenu } from "@/components/ocupa/UserMenu";
 import { Button } from "@/components/ui/button";
 
 export function Navbar({ compact = false }: { compact?: boolean }) {
@@ -60,7 +61,7 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
         <div className={`hidden items-center gap-1 text-sm ${compact ? "" : "lg:flex"}`}>
           <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" asChild><Link to="/favoritos"><Heart strokeWidth={1.7} /> Favoritos</Link></Button>
           {user ? (
-            <span className="px-3 text-xs font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
+            <UserMenu />
           ) : (
             <Button variant="nav" className="h-10 gap-2 px-3 text-muted-foreground transition-[color,transform] active:scale-[0.96]" onClick={openLogin}><LogIn strokeWidth={1.7} /> Entrar</Button>
           )}
@@ -73,13 +74,12 @@ export function Navbar({ compact = false }: { compact?: boolean }) {
       {open && (
         <nav className={`animate-fade-in border-t border-border bg-background px-5 py-3 shadow-sm ${compact ? "" : "lg:hidden"}`} aria-label="Navegação móvel">
           <div className="mx-auto flex max-w-[1120px] flex-col text-sm">
+            {user ? <MobileUserMenu onNavigate={() => setOpen(false)} /> : null}
             {navItems.map((item) => <a key={item.href} href={item.href} onClick={() => navigateTo(item.href)} className="border-b border-border/70 py-3.5 font-medium transition-colors active:text-primary">{item.label}</a>)}
-            <Link to="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</Link>
-            {user ? (
-              <span className="py-3.5 font-medium text-primary" aria-label={`Usuário autenticado: ${user.name}`}>Olá, {user.name}</span>
-            ) : (
+            {!user ? <Link to="/favoritos" onClick={() => setOpen(false)} className="flex items-center gap-2 py-3.5"><Heart className="size-4" strokeWidth={1.7} /> Favoritos</Link> : null}
+            {!user ? (
               <button type="button" onClick={openLogin} className="flex items-center gap-2 py-3.5 text-left"><LogIn className="size-4" strokeWidth={1.7} /> Entrar</button>
-            )}
+            ) : null}
             <Button type="button" variant="editorial" className="my-2 w-full" onClick={offerSpace}>Disponibilizar espaço</Button>
           </div>
         </nav>

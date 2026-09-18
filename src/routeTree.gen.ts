@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuscarRouteImport } from './routes/buscar'
+import { Route as ConfiguracoesRouteImport } from './routes/configuracoes'
+import { Route as ContaRouteImport } from './routes/conta'
 import { Route as FavoritosRouteImport } from './routes/favoritos'
+import { Route as MeusEspacosRouteImport } from './routes/meus-espacos'
+import { Route as ReservasRouteImport } from './routes/reservas'
 import { Route as EspacosIdRouteImport } from './routes/espacos/$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -24,9 +28,29 @@ const BuscarRoute = BuscarRouteImport.update({
   path: '/buscar',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConfiguracoesRoute = ConfiguracoesRouteImport.update({
+  id: '/configuracoes',
+  path: '/configuracoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContaRoute = ContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FavoritosRoute = FavoritosRouteImport.update({
   id: '/favoritos',
   path: '/favoritos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeusEspacosRoute = MeusEspacosRouteImport.update({
+  id: '/meus-espacos',
+  path: '/meus-espacos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservasRoute = ReservasRouteImport.update({
+  id: '/reservas',
+  path: '/reservas',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EspacosIdRoute = EspacosIdRouteImport.update({
@@ -38,34 +62,75 @@ const EspacosIdRoute = EspacosIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/conta': typeof ContaRoute
   '/favoritos': typeof FavoritosRoute
+  '/meus-espacos': typeof MeusEspacosRoute
+  '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/conta': typeof ContaRoute
   '/favoritos': typeof FavoritosRoute
+  '/meus-espacos': typeof MeusEspacosRoute
+  '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/buscar': typeof BuscarRoute
+  '/configuracoes': typeof ConfiguracoesRoute
+  '/conta': typeof ContaRoute
   '/favoritos': typeof FavoritosRoute
+  '/meus-espacos': typeof MeusEspacosRoute
+  '/reservas': typeof ReservasRoute
   '/espacos/$id': typeof EspacosIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/buscar' | '/favoritos' | '/espacos/$id'
+  fullPaths:
+    | '/'
+    | '/buscar'
+    | '/configuracoes'
+    | '/conta'
+    | '/favoritos'
+    | '/meus-espacos'
+    | '/reservas'
+    | '/espacos/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/buscar' | '/favoritos' | '/espacos/$id'
-  id: '__root__' | '/' | '/buscar' | '/favoritos' | '/espacos/$id'
+  to:
+    | '/'
+    | '/buscar'
+    | '/configuracoes'
+    | '/conta'
+    | '/favoritos'
+    | '/meus-espacos'
+    | '/reservas'
+    | '/espacos/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/buscar'
+    | '/configuracoes'
+    | '/conta'
+    | '/favoritos'
+    | '/meus-espacos'
+    | '/reservas'
+    | '/espacos/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuscarRoute: typeof BuscarRoute
+  ConfiguracoesRoute: typeof ConfiguracoesRoute
+  ContaRoute: typeof ContaRoute
   FavoritosRoute: typeof FavoritosRoute
+  MeusEspacosRoute: typeof MeusEspacosRoute
+  ReservasRoute: typeof ReservasRoute
   EspacosIdRoute: typeof EspacosIdRoute
 }
 
@@ -85,11 +150,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BuscarRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/configuracoes': {
+      id: '/configuracoes'
+      path: '/configuracoes'
+      fullPath: '/configuracoes'
+      preLoaderRoute: typeof ConfiguracoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conta': {
+      id: '/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof ContaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/favoritos': {
       id: '/favoritos'
       path: '/favoritos'
       fullPath: '/favoritos'
       preLoaderRoute: typeof FavoritosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/meus-espacos': {
+      id: '/meus-espacos'
+      path: '/meus-espacos'
+      fullPath: '/meus-espacos'
+      preLoaderRoute: typeof MeusEspacosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservas': {
+      id: '/reservas'
+      path: '/reservas'
+      fullPath: '/reservas'
+      preLoaderRoute: typeof ReservasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/espacos/$id': {
@@ -105,7 +198,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuscarRoute: BuscarRoute,
+  ConfiguracoesRoute: ConfiguracoesRoute,
+  ContaRoute: ContaRoute,
   FavoritosRoute: FavoritosRoute,
+  MeusEspacosRoute: MeusEspacosRoute,
+  ReservasRoute: ReservasRoute,
   EspacosIdRoute: EspacosIdRoute,
 }
 export const routeTree = rootRouteImport
